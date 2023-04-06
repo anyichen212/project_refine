@@ -32,15 +32,11 @@ export interface ProfileProps {
     email: string;
     properties: Array | undefined;
 }
-
-export interface PropertyProps {
+*/
+export interface ListProps {
     _id: string;
     title: string;
     description: string;
-    location: string;
-    price: string;
     photo: string;
     creator: string;
 }
-
-*/
