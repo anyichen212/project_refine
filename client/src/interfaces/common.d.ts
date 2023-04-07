@@ -37,6 +37,6 @@ export interface ListProps {
     _id: string;
     title: string;
     description: string;
-    photo: string;
+    image: string;
     creator: string;
 }

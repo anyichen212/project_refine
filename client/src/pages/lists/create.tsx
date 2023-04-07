@@ -1,6 +1,7 @@
 import { useState } from "react";
-import { useGetIdentity } from "@refinedev/core";
+import { useGetIdentity, useActiveAuthProvider } from "@refinedev/core";
 import { useForm } from "@refinedev/react-hook-form";
+import { useNavigate } from "react-router-dom";
 
 import { FieldValues } from "react-hook-form";
 
@@ -8,8 +9,10 @@ import Form from "components/common/Form";
 
 
 const ListCreate = () => {
+  const navigate = useNavigate();
+  const authProvider = useActiveAuthProvider();
   const {data: user } = useGetIdentity({
-    v3LegacyAuthProviderCompatible: true,
+    v3LegacyAuthProviderCompatible: Boolean(authProvider?.isLegacy),
   });
   const[image, setImage] = useState({ name: '' , url: ''});
   const { refineCore: {onFinish, formLoading}, register, handleSubmit } = useForm();
@@ -22,17 +25,19 @@ const ListCreate = () => {
             fileReader.readAsDataURL(readFile);
         });
 
-        reader(file).then((result: string) =>
-        setImage({ name: file?.name, url: result }),
+        reader(file).then((result: string) => setImage({ name: file?.name, url: result }),
     );
 };
 
   const onFinishHandler =  async (data: FieldValues) => {
-    if (!image.name) return alert("Please select an image");
+    if (!image.name){
+      image.name = "defaultImage";
+      image.url = "http://res.cloudinary.com/dckljm0kd/image/upload/v1678206226/samples/cloudinary-icon.png"
+    }
 
     await onFinish({
         ...data,
-        photo: image.url,
+        image: image.url,
         email: user.email,
     });
 };

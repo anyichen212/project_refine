@@ -1,6 +1,7 @@
-import { IResourceComponentsProps } from "@refinedev/core";
-import { MuiShowInferencer } from "@refinedev/inferencer/mui";
+import React from 'react';
 
-export const ListShow: React.FC<IResourceComponentsProps> = () => {
-  return <MuiShowInferencer />;
+export const ListShow: React.FC = () => {
+  return (
+    <div>List Show</div>
+  );
 };

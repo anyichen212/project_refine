@@ -1,5 +1,4 @@
-
-import express from "express";
+import express from 'express';
 
 import {
     createList, deleteList, getAllList, getListDetail, updateList

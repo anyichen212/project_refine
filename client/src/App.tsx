@@ -70,6 +70,7 @@ function App() {
         if (profileObj) {
           const response = await fetch(
             "https://project-refine.onrender.com/api/v1/users",
+            //"http://localhost:8080/api/v1",
           {
             method: "POST",
             headers: { "Content-Type": "application/json" },
@@ -166,7 +167,10 @@ function App() {
           <GlobalStyles styles={{ html: { WebkitFontSmoothing: "auto" } }} />
           <RefineSnackbarProvider>
             <Refine
-              dataProvider={dataProvider("https://project-refine.onrender.com/api/v1")}
+              dataProvider={dataProvider(
+                "https://project-refine.onrender.com/api/v1"
+                //"http://localhost:8080/api/v1"
+                )}
               notificationProvider={notificationProvider}
               routerProvider={routerBindings}
               authProvider={authProvider}

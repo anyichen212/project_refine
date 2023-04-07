@@ -14,7 +14,40 @@ cloudinary.config({
 });
 
 const getAllList = async (req, res) => {
+    const {
+        _end,
+        _order,
+        _start,
+        _sort,
+        title_like = "",
+        propertyType = "",
+    } = req.query;
 
+    const query = {};
+
+    if (propertyType !== "") {
+        query.propertyType = propertyType;
+    }
+
+    if (title_like) {
+        query.title = { $regex: title_like, $options: "i" };
+    }
+
+    try {
+        const count = await List.countDocuments({ query });
+
+        const lists = await List.find(query)
+            .limit(_end)
+            .skip(_start)
+            .sort({ [_sort]: _order });
+
+        res.header("x-total-count", count);
+        res.header("Access-Control-Expose-Headers", "x-total-count");
+
+        res.status(200).json(lists);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 const getListDetail = async (req, res) => {

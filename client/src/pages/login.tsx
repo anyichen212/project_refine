@@ -12,7 +12,7 @@ const GOOGLE_CLIENT_ID =
 export const Login: React.FC = () => {
   const { mutate: login } = useLogin<CredentialResponse>({
     //v3LegacyAuthProviderCompatible: true,
-  });
+});
 
   const GoogleButton = (): JSX.Element => {
     const divRef = useRef<HTMLDivElement>(null);
