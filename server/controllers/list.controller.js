@@ -20,14 +20,10 @@ const getAllList = async (req, res) => {
         _start,
         _sort,
         title_like = "",
-        propertyType = "",
     } = req.query;
 
     const query = {};
 
-    if (propertyType !== "") {
-        query.propertyType = propertyType;
-    }
 
     if (title_like) {
         query.title = { $regex: title_like, $options: "i" };
@@ -51,7 +47,16 @@ const getAllList = async (req, res) => {
 };
 
 const getListDetail = async (req, res) => {
+    const { id } = req.params;
+    const listExists = await List.findOne({ _id: id }).populate(
+        "creator",
+    );
 
+    if (listExists) {
+        res.status(200).json(listExists);
+    } else {
+        res.status(404).json({ message: "List not found" });
+    }
 };
 
 const createList = async (req, res) => {
@@ -92,11 +97,51 @@ const createList = async (req, res) => {
 };
 
 const updateList = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, description, image} =
+            req.body;
 
+        const imageUrl = await cloudinary.uploader.upload(image);
+
+        await List.findByIdAndUpdate(
+            { _id: id },
+            {
+                title,
+                description,
+                image: imageUrl.url || image,
+            },
+        );
+
+        res.status(200).json({ message: "List updated successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 const deleteList = async (req, res) => {
- 
+    try {
+        const { id } = req.params;
+
+        const listToDelete = await List.findById({ _id: id }).populate(
+            "creator",
+        );
+
+        if (!listToDelete) throw new Error("List not found");
+
+        const session = await mongoose.startSession();
+        session.startTransaction();
+
+        listToDelete.deleteOne({ session });
+        listToDelete.creator.allList.pull(listToDelete);
+
+        await listToDelete.creator.save({ session });
+        await session.commitTransaction();
+
+        res.status(200).json({ message: "List deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
 };
 
 export {
