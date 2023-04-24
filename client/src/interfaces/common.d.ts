@@ -24,15 +24,15 @@ export interface FormProps {
     image: { name: string; url: string };
 }
 
-/*
+
 export interface ProfileProps {
     type: string;
     name: string;
     avatar: string;
     email: string;
-    properties: Array | undefined;
+    lists: Array | undefined;
 }
-*/
+
 export interface ListProps {
     _id: string;
     title: string;

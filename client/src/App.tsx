@@ -15,11 +15,13 @@ import {
 } from "@refinedev/mui";
 
 import { CssBaseline, GlobalStyles } from "@mui/material";
+
 import routerBindings, {
   CatchAllNavigate,
   NavigateToResource,
   UnsavedChangesNotifier,
 } from "@refinedev/react-router-v6";
+
 import dataProvider from "@refinedev/simple-rest";
 import axios, { AxiosRequestConfig } from "axios";
 import { CredentialResponse } from "interfaces/google";
@@ -29,12 +31,16 @@ import {
   AllLists,
   ListShow,
 } from "pages/lists";
+
 import {
   CategoryCreate,
   CategoryEdit,
   CategoryList,
   CategoryShow,
 } from "pages/categories";
+
+import { Profile } from "pages/profiles";
+
 import { Login, Home } from "pages";
 import { BrowserRouter, Outlet, Route, Routes } from "react-router-dom";
 import { parseJwt } from "utils/parse-jwt";
@@ -160,7 +166,7 @@ function App() {
 
   return (
     <BrowserRouter>
-      <GitHubBanner />
+
       <RefineKbarProvider>
         <ColorModeContextProvider>
           <CssBaseline />
@@ -193,16 +199,16 @@ function App() {
                     canDelete: true,
                   },
                 },
-                {
-                  name: "categories",
-                  list: "/categories",
+                //{
+                  //name: "categories",
+                  //list: "/categories",
                   //create: "/categories/create",
                   //edit: "/categories/edit/:id",
                   //show: "/categories/show/:id",
                   //meta: {
                     //canDelete: true,
                   //},
-                },
+                //},
                 {
                   name: "profile",
                   list: "/profile",
@@ -230,6 +236,7 @@ function App() {
                     index
                     element={<Home/>}
                   />
+                  
                   <Route path="/lists">
                     <Route index element={<AllLists />} />
                     <Route path="create" element={<ListCreate />} />
@@ -242,7 +249,14 @@ function App() {
                     <Route path="edit/:id" element={<CategoryEdit />} />
                     <Route path="show/:id" element={<CategoryShow />} />
                   </Route>
+
+                  <Route path="/profile">
+                  <Route index element={<Profile />} />
+
+                  </Route>
+
                 </Route>
+
                 <Route
                   element={
                     <Authenticated fallback={<Outlet />}>

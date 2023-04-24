@@ -84,9 +84,7 @@ const AllLists = () => {
                       {
                         field: "title",
                         operator: "contains",
-                        value: e.currentTarget.value
-                            ? e.currentTarget.value
-                            : undefined,
+                        value: e.currentTarget.value ? e.currentTarget.value : undefined,
                         },
                       ]);
                     }}
