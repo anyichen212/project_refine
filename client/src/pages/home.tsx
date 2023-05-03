@@ -23,10 +23,10 @@ const Home = () => {
     return (
         <Profile
             type=""
-            name={myProfile.name}
-            email={myProfile.email}
-            avatar={myProfile.avatar}
-            lists={myProfile.allList}
+            name={myProfile?.name}
+            email={myProfile?.email}
+            avatar={myProfile?.avatar}
+            lists={myProfile?.allList}
         />
     );
 
